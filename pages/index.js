@@ -1,11 +1,21 @@
 import Head from 'next/head'
 import Image from 'next/image'
-import { Inter } from 'next/font/google'
+import Header from '@/components/Header'
 import styles from '@/styles/Home.module.css'
+import Footer from '@/components/Footer'
+import Button from '@/components/Button'
+import Counter from '@/components/Counter'
+import { useState } from 'react'
 
-const inter = Inter({ subsets: ['latin'] })
+
 
 export default function Home() {
+  const [itemOne, setItemOne] = useState(0);
+  const [itemTwo, setItemTwo] = useState([])
+  const [position, setPosition] = useState({
+    x: 0,
+    y: 0
+  });
   return (
     <>
       <Head>
@@ -14,101 +24,51 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className={`${styles.main} ${inter.className}`}>
-        <div className={styles.description}>
-          <p>
-            Get started by editing&nbsp;
-            <code className={styles.code}>pages/index.js</code>
-          </p>
-          <div>
-            <a
-              href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              By{' '}
-              <Image
-                src="/vercel.svg"
-                alt="Vercel Logo"
-                className={styles.vercelLogo}
-                width={100}
-                height={24}
-                priority
-              />
-            </a>
-          </div>
+      <Header />
+      <main className={`${styles.main}`}>
+        <Button />
+        <Button title="Click Me" color="red" />
+
+        <button onClick={() => {
+          setItemOne(itemOne + 1);
+          console.log(itemOne)
+        }}>Button Number 1</button>
+
+        <button onClick={() => {
+          setItemTwo([...itemTwo, "testing"])
+          console.log(itemTwo);
+        }}>
+          Button 2 Array
+        </button>
+
+        <div
+          onPointerMove={e => {
+            setPosition({
+              x: e.clientX,
+              y: e.clientY
+            })
+          }}
+          style={{
+            position: 'relative',
+            width: '100vw',
+            height: '50vh'
+          }}
+        ></div>
+        <div
+          style={{
+            position: 'absolute',
+            backgroundColor: 'red',
+            borderRadius: '50%',
+            transform: `translate(${position.x}px, ${position.y}px`,
+            left: 0,
+            top: -200,
+            width: 20,
+            height: 20
+          }}>
         </div>
-
-        <div className={styles.center}>
-          <Image
-            className={styles.logo}
-            src="/next.svg"
-            alt="Next.js Logo"
-            width={180}
-            height={37}
-            priority
-          />
-        </div>
-
-        <div className={styles.grid}>
-          <a
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2>
-              Docs <span>-&gt;</span>
-            </h2>
-            <p>
-              Find in-depth information about Next.js features and&nbsp;API.
-            </p>
-          </a>
-
-          <a
-            href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2>
-              Learn <span>-&gt;</span>
-            </h2>
-            <p>
-              Learn about Next.js in an interactive course with&nbsp;quizzes!
-            </p>
-          </a>
-
-          <a
-            href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2>
-              Templates <span>-&gt;</span>
-            </h2>
-            <p>
-              Discover and deploy boilerplate example Next.js&nbsp;projects.
-            </p>
-          </a>
-
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2>
-              Deploy <span>-&gt;</span>
-            </h2>
-            <p>
-              Instantly deploy your Next.js site to a shareable URL
-              with&nbsp;Vercel.
-            </p>
-          </a>
-        </div>
+        <Counter/>
       </main>
+      <Footer />
     </>
   )
 }
